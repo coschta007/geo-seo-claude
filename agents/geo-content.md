@@ -134,11 +134,13 @@ Trustworthiness is the foundational element of E-E-A-T. Google considers it the 
 Measure quantitative content characteristics:
 
 **Word Count Assessment:**
-- Under 300 words: Thin content (flag as concern)
+- Under 300 words: Thin content (flag as concern if the topic needs more coverage)
 - 300-800 words: Short-form (appropriate for some topics)
 - 800-1500 words: Standard-form
-- 1500-3000 words: Long-form (preferred for comprehensive topics)
+- 1500-3000 words: Long-form (suits comprehensive topics)
 - 3000+ words: Deep-dive (good if well-structured, problematic if bloated)
+
+These bands describe the page; they are not targets. Google states there is no ideal content length for its AI features. Judge whether the page fully answers its topic, and never recommend adding words or splitting content just to reach a length.
 
 **Readability Estimation (Flesch Reading Ease):**
 Calculate an approximate Flesch score by sampling 3-5 representative paragraphs:

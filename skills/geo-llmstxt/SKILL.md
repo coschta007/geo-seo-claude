@@ -20,13 +20,19 @@ This skill handles everything related to the `llms.txt` standard -- an emerging 
 
 AI language models face a fundamental challenge when processing websites: they must determine which pages are most important, what the site is about, and how content is organized -- typically by crawling many pages and inferring structure. `llms.txt` solves this by providing an explicit, machine-readable (and human-readable) summary.
 
-**Benefits of having a well-crafted llms.txt:**
+**Potential benefits for AI tools that read llms.txt:**
 
 1. **Faster AI comprehension:** AI systems can understand your site's purpose and structure from a single file rather than crawling dozens of pages.
 2. **Controlled narrative:** You choose which pages and facts AI systems see first, shaping how they represent your brand.
 3. **Higher citation accuracy:** AI systems that consult llms.txt can cite the correct, authoritative page for each topic.
 4. **Reduced misrepresentation:** Key facts (pricing, features, locations) are stated explicitly, reducing AI hallucination about your business.
-5. **Early adopter advantage:** As of early 2026, fewer than 5% of websites have an llms.txt file, making it a differentiator.
+
+**What llms.txt does not do:**
+
+- **Google Search ignores it.** Google states that Google Search, including AI Overviews and AI Mode, does not use llms.txt or other AI-specific files and markup, and that maintaining one for other services is fine. A missing llms.txt says nothing about a site's Google AI visibility.
+- **No guaranteed effect elsewhere.** No AI platform guarantees that it reads llms.txt or uses it when choosing what to cite.
+
+Present llms.txt to clients as an optional, low-effort addition, never as a ranking or citation factor, and never rank it above crawler access, content quality or entity signals.
 
 ---
 

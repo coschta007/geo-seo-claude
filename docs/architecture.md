@@ -39,7 +39,7 @@ geo-seo-claude/
 │   ├── article-author.json       # Article + Person schema (E-E-A-T)
 │   ├── software-saas.json        # SoftwareApplication schema
 │   ├── product-ecommerce.json    # Product schema with offers
-│   └── website-searchaction.json # WebSite + SearchAction schema
+│   └── website.json              # WebSite schema (site name)
 ├── install.sh                    # One-command installer
 ├── uninstall.sh                  # Uninstaller
 ├── requirements.txt              # Python dependencies

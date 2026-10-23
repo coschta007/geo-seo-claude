@@ -60,7 +60,7 @@ ChatGPT web search (powered by Bing index + OAI-SearchBot) has distinct preferen
 **Crawler Access:**
 - Is OAI-SearchBot allowed in robots.txt?
 - Is ChatGPT-User allowed?
-- Is GPTBot allowed? (separate from search but signals openness)
+- Is GPTBot allowed? (training only; OpenAI documents it as independent of OAI-SearchBot, so a block does not affect ChatGPT search)
 
 **Score (0-100):**
 - Entity recognition: 35 points

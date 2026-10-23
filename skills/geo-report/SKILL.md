@@ -126,12 +126,16 @@ Present as a clear table:
 | AI Crawler | Platform | Status | Impact | Recommendation |
 |---|---|---|---|---|
 | Googlebot | Google Search + AIO | Allowed/Blocked | Critical | [Action] |
-| GPTBot | ChatGPT / OpenAI | Allowed/Blocked | High | [Action] |
+| OAI-SearchBot | ChatGPT search | Allowed/Blocked | High | [Action] |
 | Bingbot | Bing + Copilot + ChatGPT | Allowed/Blocked | High | [Action] |
 | PerplexityBot | Perplexity AI | Allowed/Blocked | Medium | [Action] |
-| Google-Extended | Gemini Training | Allowed/Blocked | Medium | [Action] |
-| ClaudeBot | Anthropic Claude | Allowed/Blocked | Medium | [Action] |
-| Applebot-Extended | Apple Intelligence | Allowed/Blocked | Medium | [Action] |
+| Claude-SearchBot | Claude search | Allowed/Blocked | Medium | [Action] |
+| GPTBot | OpenAI model training | Allowed/Blocked | Low | [Action] |
+| ClaudeBot | Anthropic model training | Allowed/Blocked | Low | [Action] |
+| Google-Extended | Gemini training | Allowed/Blocked | Low | [Action] |
+| Applebot-Extended | Apple Intelligence training | Allowed/Blocked | Low | [Action] |
+
+Training crawlers (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended) do not decide search visibility. If one is blocked while the matching search crawler is allowed, tell the client it is a valid training opt-out, not a visibility problem.
 ```
 
 **Translate for the client**: "Blocking AI crawlers is like closing your store during business hours. If a crawler cannot access your site, the AI platform it powers cannot cite your content. We recommend allowing all major AI crawlers unless you have a specific data licensing concern."
@@ -204,7 +208,7 @@ Present the key technical findings in business-friendly language:
 | Article + Author | Yes/No | [Valid/Issues] | High — E-E-A-T signal |
 | sameAs (entity links) | Yes/No | [Count] links | Critical — cross-platform entity graph |
 | [Business-specific] | Yes/No | [Valid/Issues] | [Impact] |
-| WebSite + SearchAction | Yes/No | [Valid/Issues] | Medium — sitelinks |
+| WebSite (site name) | Yes/No | [Valid/Issues] | Low — site name in results |
 | BreadcrumbList | Yes/No | [Valid/Issues] | Low-Medium — navigation context |
 ```
 
@@ -221,7 +225,7 @@ If schemas are missing, note: "Ready-to-use structured data code has been prepar
 | /llms-full.txt | Present/Missing | [Action] |
 ```
 
-**Translate for the client**: "llms.txt is an emerging standard (similar to robots.txt) that tells AI systems what your site is about and which pages are most important. While not universally adopted yet, implementing it positions your brand ahead of competitors and provides direct guidance to AI platforms."
+**Translate for the client**: "llms.txt is an emerging, optional file (similar to robots.txt) that gives AI tools a curated summary of your site and its most important pages. Google has said its search, including AI Overviews, does not use it, and no AI platform guarantees it will. It is cheap to add and may help tools that read it, but a missing llms.txt is not a reason for weak AI visibility."
 
 ### Section 10: Prioritized Action Plan
 

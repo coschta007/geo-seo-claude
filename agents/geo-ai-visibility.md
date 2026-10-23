@@ -47,10 +47,12 @@ Fetch `/robots.txt` from the target domain root. Parse it for directives affecti
 
 | Crawler | Service |
 |---|---|
-| GPTBot | OpenAI (training + ChatGPT search) |
-| OAI-SearchBot | OpenAI (search-only, respects separate rules) |
-| ChatGPT-User | ChatGPT browsing mode |
-| ClaudeBot | Anthropic / Claude |
+| OAI-SearchBot | OpenAI ChatGPT search (independent of GPTBot) |
+| ChatGPT-User | ChatGPT user-initiated fetches (OpenAI: robots.txt may not apply) |
+| GPTBot | OpenAI model training only (does NOT affect ChatGPT search) |
+| Claude-SearchBot | Anthropic Claude search |
+| Claude-User | Claude user-initiated fetches |
+| ClaudeBot | Anthropic model training only (does NOT affect Claude search) |
 | PerplexityBot | Perplexity AI search |
 | Amazonbot | Amazon / Alexa AI |
 | Google-Extended | Google Gemini training (does NOT affect Google Search) |
@@ -73,10 +75,12 @@ Check for:
 
 Calculate **Crawler Access Score**:
 - Start at 100.
-- Deduct 15 points for each critical crawler blocked (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, GoogleBot).
-- Deduct 5 points for each secondary crawler blocked.
+- Deduct 15 points for each critical search crawler blocked (OAI-SearchBot, Claude-SearchBot, PerplexityBot, Googlebot).
+- Deduct 5 points for each secondary crawler blocked. This includes user-initiated agents (ChatGPT-User, Claude-User) and training crawlers (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot).
 - Deduct 10 points if no sitemap is referenced.
 - Floor at 0.
+
+A blocked training crawler whose matching search crawler is allowed (for example GPTBot blocked, OAI-SearchBot allowed) is a legitimate training opt-out. Report it as a deliberate choice, never as "invisible in ChatGPT/Claude".
 
 **Content Signals (non-scoring):** Using the already-fetched robots.txt, scan for a `Content-Signal:` directive (IETF draft `draft-romm-aipref-contentsignals`). If found, parse key=value pairs and record the declared preferences. Valid keys: `ai-train`, `search`, `ai-personalization`, `ai-retrieval`. Valid values: `yes`, `no`. If absent, note as a recommendation. This check does not affect the Crawler Access Score — it is a non-scored flag.
 
@@ -97,7 +101,8 @@ If found:
 
 If not found:
 - Note the absence.
-- Recommend creation with a template based on the site type detected.
+- Recommend creation as an optional, low-priority improvement with a template based on the site type detected.
+- Do not present the absence as a visibility problem. Google states that Google Search, including AI Overviews and AI Mode, does not use llms.txt, and its presence does not guarantee any crawler behaviour elsewhere. Never rank an llms.txt action above LOW in Priority Actions.
 
 Calculate **llms.txt Score**:
 - 0 if absent.
@@ -199,10 +204,12 @@ Citation-unlikely areas needing improvement:
 
 | Crawler | Status | Notes |
 |---|---|---|
-| GPTBot | [Allowed/Blocked/Restricted] | [Details] |
-| OAI-SearchBot | [Status] | [Details] |
+| OAI-SearchBot | [Allowed/Blocked/Restricted] | [Details] |
 | ChatGPT-User | [Status] | [Details] |
-| ClaudeBot | [Status] | [Details] |
+| GPTBot | [Status] | [Training only] |
+| Claude-SearchBot | [Status] | [Details] |
+| Claude-User | [Status] | [Details] |
+| ClaudeBot | [Status] | [Training only] |
 | PerplexityBot | [Status] | [Details] |
 | [Other crawlers...] | | |
 

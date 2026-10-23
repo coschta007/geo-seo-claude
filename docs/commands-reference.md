@@ -124,6 +124,7 @@ Scores a single page for AI citation readiness using a five-dimension rubric.
 
 - Fetches the page and segments content into blocks at each H2/H3 boundary.
 - Scores each block across: answer block quality (30%), passage self-containment (25%), structural readability (20%), statistical density (15%), and uniqueness/original data (10%).
+- Detects English or German content and applies the matching patterns. Other languages are scored with the English patterns, so treat their scores as rough.
 - Identifies the top three strongest and the three weakest blocks.
 - Generates specific rewrite suggestions — including a suggested opening sentence — for every block scoring below 60. See [scoring-methodology.md](scoring-methodology.md) for the rubric detail.
 
@@ -155,12 +156,12 @@ Analyzes which AI crawlers can access the site and provides a recommended robots
 
 **What it does**
 
-- Fetches and parses `robots.txt`, mapping every User-agent directive to the 14 known AI crawlers.
+- Fetches and parses `robots.txt`, mapping every User-agent directive to the 16 known AI crawlers.
 - Checks a sample of key pages for `<meta name="robots">` overrides and `X-Robots-Tag` HTTP headers.
 - Detects Cloudflare's managed robots.txt, which silently prepends AI crawler blocks to the site's own file.
 - Checks for the presence of `/llms.txt` and `/.well-known/ai-plugin.json`.
 - Assesses whether key content requires JavaScript rendering (AI crawlers do not execute JS).
-- Scores crawler access in three tiers: Tier 1 (ChatGPT, Claude, Perplexity — critical for AI search), Tier 2 (Gemini, Copilot, Apple Intelligence, Meta AI), and Tier 3 (training-only crawlers).
+- Scores crawler access in three tiers: Tier 1 (the search and user-initiated crawlers of ChatGPT, Claude and Perplexity — critical for AI search), Tier 2 (broader ecosystem, including the model-training crawlers GPTBot, ClaudeBot, Google-Extended and Applebot-Extended), and Tier 3 (other training-only crawlers). Blocking a training crawler does not remove a site from the matching AI search product.
 
 **Inputs**
 
@@ -207,7 +208,7 @@ Analyzes an existing `llms.txt` file for quality, or generates a new one from sc
 
 **When to use it**
 
-Use this on any site to either validate an existing `llms.txt` or produce a new one. Fewer than 5% of sites had an `llms.txt` as of early 2026, making it an accessible quick win.
+Use this on any site to either validate an existing `llms.txt` or produce a new one. The file is optional: Google states that Google Search, including AI Overviews, does not use it, and no AI platform guarantees that it will. It is cheap to add for tools that do read it, but a missing file is not a visibility problem.
 
 ---
 
@@ -293,7 +294,7 @@ Detects all structured data on a site, validates it against Schema.org specifica
 
 - Fetches raw HTML using `fetch_page.py` (not WebFetch, which strips `<head>` content) to extract all JSON-LD, Microdata, and RDFa blocks.
 - Validates each schema: JSON syntax, valid `@type`, required properties, recommended properties, `sameAs` links, URL validity, nesting, and whether the schema is server-rendered or JS-injected.
-- Checks for GEO-critical schema types: Organization, LocalBusiness, Article with Author, Product, FAQPage, SoftwareApplication, WebSite with SearchAction, and BreadcrumbList.
+- Checks for GEO-critical schema types: Organization, LocalBusiness, Article with Author, Product, FAQPage, SoftwareApplication, WebSite (site name), and BreadcrumbList. SearchAction is not recommended: Google retired the sitelinks search box on 21 November 2024.
 - Audits the `sameAs` property against a priority list of 14 platforms (Wikipedia, Wikidata, LinkedIn, YouTube, Twitter/X, GitHub, Crunchbase, etc.).
 - Generates complete JSON-LD code blocks using the `@graph` pattern for any missing or incomplete schemas. See [scoring-methodology.md](scoring-methodology.md) for how schema score feeds the composite GEO Score.
 

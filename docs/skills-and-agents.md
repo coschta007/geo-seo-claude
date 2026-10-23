@@ -41,7 +41,7 @@ See [commands-reference.md](commands-reference.md) for `/geo audit`.
 
 **Scoring dimensions (per passage):** Answer Block Quality (30%), Self-Containment (25%), Structural Readability (20%), Statistical Density (15%), Uniqueness (10%).
 
-**Key threshold:** Optimal AI-cited passages are 134–167 words, self-contained, fact-rich, and answer a question in the first 1–2 sentences.
+**Key signals:** Self-contained, fact-rich passages that answer a question in the first 1–2 sentences. Passages of 134–167 words get partial credit, a third-party heuristic rather than a documented requirement (Google states there is no ideal content length). The scorer detects English and German; other languages fall back to the English patterns.
 
 See [commands-reference.md](commands-reference.md) for `/geo citability`.
 
@@ -49,16 +49,18 @@ See [commands-reference.md](commands-reference.md) for `/geo citability`.
 
 ### geo-crawlers
 
-**Purpose:** Audits which AI crawlers can access the site by parsing `robots.txt`, meta robots tags, and HTTP `X-Robots-Tag` headers, and flags Cloudflare's managed robots.txt when it is silently blocking AI crawlers. Produces a complete access map across 14 crawlers in three tiers.
+**Purpose:** Audits which AI crawlers can access the site by parsing `robots.txt`, meta robots tags, and HTTP `X-Robots-Tag` headers, and flags Cloudflare's managed robots.txt when it is silently blocking AI crawlers. Produces a complete access map across 16 crawlers in three tiers.
 
 **Inputs:** A domain URL.
 
 **Outputs:** `GEO-CRAWLER-ACCESS.md` — per-crawler status (Allowed / Blocked / Not Mentioned), AI Visibility Score, recommended `robots.txt` configuration, and JavaScript rendering assessment.
 
 **Crawler tiers:**
-- Tier 1 (search visibility): GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot
-- Tier 2 (broader AI ecosystem): Google-Extended, GoogleOther, Applebot-Extended, Amazonbot, FacebookBot
+- Tier 1 (search visibility): OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot
+- Tier 2 (broader AI ecosystem): GPTBot, ClaudeBot, Google-Extended, GoogleOther, Applebot-Extended, Amazonbot, FacebookBot
 - Tier 3 (training-only): CCBot, anthropic-ai, Bytespider, cohere-ai
+
+GPTBot, ClaudeBot, Google-Extended and Applebot-Extended only control model training. Blocking them does not remove a site from ChatGPT search, Claude search, Google Search/AI Overviews or Siri, so the skill reports such a block as a deliberate choice when the matching search crawler is allowed.
 
 See [commands-reference.md](commands-reference.md) for `/geo crawlers`.
 
@@ -118,7 +120,7 @@ See [commands-reference.md](commands-reference.md) for `/geo platforms`.
 
 **Outputs:** `GEO-SCHEMA-REPORT.md` — detected schemas with validation results, `sameAs` entity-linking audit, deprecated schema flags (HowTo removed Sep 2023, FAQPage restricted Aug 2023), and ready-to-paste JSON-LD code blocks.
 
-**GEO-critical schemas:** Organization + `sameAs`, Article + Author (Person), speakable property, BreadcrumbList, WebSite + SearchAction.
+**GEO-critical schemas:** Organization + `sameAs`, Article + Author (Person), speakable property, BreadcrumbList, WebSite (site name). `SearchAction` earns no points: Google retired the sitelinks search box on 21 November 2024.
 
 **Dependencies:** `scripts/fetch_page.py` (raw HTML extraction); `schema/*.json` templates (used as generation references).
 
@@ -236,7 +238,7 @@ These five agents run simultaneously during a `/geo audit` to reduce total runti
 
 **Dispatched when:** Phase 2 of `/geo audit` begins.
 
-**What it does:** Scores every content block for citability (5-dimension rubric), parses `robots.txt` for 12 AI crawlers, validates `llms.txt` format and completeness, and scans brand presence on YouTube, Reddit, Wikipedia, and LinkedIn.
+**What it does:** Scores every content block for citability (5-dimension rubric), parses `robots.txt` for 14 AI crawlers (search, user-initiated and training crawlers scored separately), validates `llms.txt` format and completeness, and scans brand presence on YouTube, Reddit, Wikipedia, and LinkedIn.
 
 **Returns:** AI Visibility Score = Citability (35%) + Brand Mentions (30%) + Crawler Access (25%) + llms.txt (10%).
 
@@ -332,4 +334,4 @@ These JSON-LD files in `schema/` serve as generation references when `geo-schema
 | `schema/article-author.json` | Publisher and blog pages; Article type with a fully populated Person author (credentials, `sameAs`, `alumniOf`, `knowsAbout`) and a `speakable` specification for AI assistant readability. |
 | `schema/product-ecommerce.json` | E-commerce product pages; Product type with Offer (including shipping details and return policy), AggregateRating, and individual Review entries. |
 | `schema/software-saas.json` | SaaS product pages; SoftwareApplication type with tiered AggregateOffer pricing, `featureList`, screenshot, and `sameAs` links to G2, Capterra, ProductHunt, and GitHub. |
-| `schema/website-searchaction.json` | Every site's homepage; WebSite type with a SearchAction `potentialAction` to enable sitelinks search box and provide AI systems with the site's search endpoint. |
+| `schema/website.json` | Every site's homepage; WebSite type with `name`, `alternateName` and `url`, which Google uses to choose the site name shown in results. No `SearchAction`: Google retired the sitelinks search box on 21 November 2024. |
