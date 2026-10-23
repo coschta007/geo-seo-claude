@@ -149,7 +149,7 @@ geo-seo-claude/
 │   ├── article-author.json       # Article + Person schema (E-E-A-T)
 │   ├── software-saas.json        # SoftwareApplication schema
 │   ├── product-ecommerce.json    # Product schema with offers
-│   └── website-searchaction.json # WebSite + SearchAction schema
+│   └── website.json              # WebSite schema (site name)
 ├── install.sh                    # One-command installer
 ├── uninstall.sh                  # Uninstaller
 ├── requirements.txt              # Python dependencies
@@ -207,10 +207,10 @@ When you run `/geo audit https://example.com`:
 ## Key Features
 
 ### Citability Scoring
-Analyzes content blocks for AI citation readiness. Optimal AI-cited passages are 134-167 words, self-contained, fact-rich, and directly answer questions.
+Analyzes content blocks for AI citation readiness: self-contained, fact-rich passages that directly answer questions. Works on English and German content (language is detected automatically). The score is a heuristic checklist, not a measured citation rate.
 
 ### AI Crawler Analysis
-Checks robots.txt for 14+ AI crawlers (GPTBot, ClaudeBot, PerplexityBot, etc.) and provides specific allow/block recommendations.
+Checks robots.txt for 16 AI crawlers (OAI-SearchBot, GPTBot, Claude-SearchBot, ClaudeBot, PerplexityBot, etc.) and provides specific allow/block recommendations. Search crawlers and training crawlers are scored separately, so blocking training (e.g. GPTBot) while allowing search (OAI-SearchBot) is treated as a valid choice.
 
 ### Brand Mention Scanning
 Brand mentions correlate 3x more strongly with AI visibility than backlinks. Scans YouTube, Reddit, Wikipedia, LinkedIn, and 7+ other platforms.
@@ -219,7 +219,7 @@ Brand mentions correlate 3x more strongly with AI visibility than backlinks. Sca
 Only 11% of domains are cited by both ChatGPT and Google AI Overviews for the same query. Provides tailored recommendations per platform.
 
 ### llms.txt Generation
-Generates the emerging llms.txt standard file that helps AI crawlers understand your site structure.
+Generates an llms.txt file, an emerging and optional convention that gives AI tools a curated map of your site. Google Search, including AI Overviews, does not use it, so its absence is not a visibility problem.
 
 ### Client-Ready Reports
 Generates professional GEO reports in markdown or PDF format. PDF reports include score gauges, bar charts, platform readiness visualizations, color-coded tables, and prioritized action plans — ready to deliver to clients.

@@ -54,7 +54,7 @@ Extract from each audit file:
 - Overall GEO Score
 - Per-category scores (6 categories)
 - Per-platform scores (5 platforms)
-- AI crawler status (14 crawlers)
+- AI crawler status (16 crawlers)
 - Critical issues list
 - Action items list with status
 
@@ -141,9 +141,11 @@ OVERALL GEO SCORE
 
 | Crawler | Baseline | Current | Change |
 |---------|---------|---------|--------|
-| GPTBot (ChatGPT) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
-| ClaudeBot (Anthropic) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
+| OAI-SearchBot (ChatGPT search) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
+| Claude-SearchBot (Claude search) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
 | PerplexityBot | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
+| GPTBot (OpenAI training) | Blocked/Allowed | Blocked/Allowed | Changed / No change |
+| ClaudeBot (Anthropic training) | Blocked/Allowed | Blocked/Allowed | Changed / No change |
 | Google-Extended (Gemini) | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
 | Bingbot | Blocked/Allowed | Blocked/Allowed | ✓ Fixed / No change |
 
@@ -188,9 +190,9 @@ OVERALL GEO SCORE
 
 > Use this section to celebrate — clients need to see the value clearly.
 
-✅ **[WIN 1]:** [Specific, tangible result — e.g., "GPTBot and ClaudeBot are now allowed. ChatGPT can now crawl and cite your content."]
+✅ **[WIN 1]:** [Specific, tangible result — e.g., "OAI-SearchBot and PerplexityBot are now allowed. ChatGPT search and Perplexity can now crawl and cite your content."]
 ✅ **[WIN 2]:** [e.g., "Organization schema implemented on homepage. Your brand entity is now machine-readable."]
-✅ **[WIN 3]:** [e.g., "llms.txt created and deployed at electron-srl.com/llms.txt — one of only ~12% of sites in your industry to have this."]
+✅ **[WIN 3]:** [e.g., "Author bylines with credentials added to all 24 articles. Every article now names a verifiable expert."]
 
 ---
 
@@ -238,7 +240,7 @@ OVERALL GEO SCORE
 Based on the [X]-point improvement this month:
 
 - **AI citation likelihood:** Increased by approximately [X]%
-- **Crawlers with access:** [X]/14 → [Y]/14 (better coverage on [platforms])
+- **Crawlers with access:** [X]/16 → [Y]/16 (better coverage on [platforms])
 - **Estimated monthly AI-referred traffic improvement:** +[X]% (conservative)
 - **Traffic value at current conversion rates:** +€[X]/month in organic value
 
@@ -267,6 +269,8 @@ Score markers to extract:
 - "Schema: XX/100"
 - "Platform: XX/100"
 - "Content: XX/100"
+- "OAI-SearchBot: Allowed/Blocked"
+- "Claude-SearchBot: Allowed/Blocked"
 - "GPTBot: Allowed/Blocked"
 - "ClaudeBot: Allowed/Blocked"
 ```

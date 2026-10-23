@@ -36,12 +36,14 @@ Check robots.txt for directives targeting these AI crawlers:
 
 | Crawler | User-Agent | Platform |
 |---|---|---|
-| GPTBot | GPTBot | ChatGPT / OpenAI |
+| OAI-SearchBot | OAI-SearchBot | ChatGPT search |
+| GPTBot | GPTBot | OpenAI model training (not ChatGPT search) |
 | Google-Extended | Google-Extended | Gemini / Google AI training |
 | Googlebot | Googlebot | Google Search + AI Overviews |
 | Bingbot | bingbot | Bing Copilot + ChatGPT (via Bing) |
 | PerplexityBot | PerplexityBot | Perplexity AI |
-| ClaudeBot | ClaudeBot | Anthropic Claude |
+| Claude-SearchBot | Claude-SearchBot | Claude search |
+| ClaudeBot | ClaudeBot | Anthropic model training (not Claude search) |
 | Amazonbot | Amazonbot | Alexa / Amazon AI |
 | CCBot | CCBot | Common Crawl (used by many AI models) |
 | FacebookBot | FacebookExternalHit | Meta AI |
@@ -51,10 +53,10 @@ Check robots.txt for directives targeting these AI crawlers:
 **Scoring for AI crawler access:**
 - All major AI crawlers allowed: 5 points
 - Some blocked but Googlebot + Bingbot allowed: 3 points
-- GPTBot or PerplexityBot blocked: 1 point (significant GEO impact)
+- OAI-SearchBot or PerplexityBot blocked: 1 point (significant GEO impact)
 - Googlebot blocked: 0 points (fatal)
 
-**Important nuance**: Blocking Google-Extended does NOT block Googlebot. Google-Extended only controls AI training data usage, not search indexing. However, blocking Google-Extended may reduce presence in AI Overviews. Recommend allowing Google-Extended unless there is a specific data licensing concern.
+**Important nuance**: Training crawlers and search crawlers are separate. Blocking GPTBot does not remove a site from ChatGPT search (OAI-SearchBot), and blocking ClaudeBot does not remove it from Claude search (Claude-SearchBot). Blocking Google-Extended does NOT block Googlebot and does not affect Google Search, including AI Overviews; it only controls Gemini training and grounding in Gemini apps. Recommend allowing these training crawlers unless there is a specific data licensing concern, and treat a deliberate block as a valid choice.
 
 ### 1.3 XML Sitemaps
 - Fetch sitemap (check robots.txt for location, or try `/sitemap.xml`, `/sitemap_index.xml`)
@@ -474,8 +476,9 @@ Status: Pass = 80%+ of category points, Warn = 50-79%, Fail = <50%
 ## AI Crawler Access
 | Crawler | User-Agent | Status | Recommendation |
 |---|---|---|---|
-| GPTBot | GPTBot | Allowed/Blocked | [Action] |
+| OAI-SearchBot | OAI-SearchBot | Allowed/Blocked | [Action] |
 | Googlebot | Googlebot | Allowed/Blocked | [Action] |
+| GPTBot (training) | GPTBot | Allowed/Blocked | [Action] |
 [Continue for all AI crawlers]
 
 ## Critical Issues (fix immediately)

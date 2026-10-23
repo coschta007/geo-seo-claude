@@ -156,21 +156,16 @@ The Author schema is one of the strongest E-E-A-T signals for AI platforms.
 - `softwareVersion`: Current version
 - `releaseNotes`: Link to changelog
 
-### WebSite + SearchAction (for sitelinks search box)
+### WebSite (for the site name in search results)
+Google uses WebSite markup on the homepage to choose the site name it shows in results. Do not add a `SearchAction`: Google retired the sitelinks search box on 21 November 2024. Existing SearchAction markup causes no errors and need not be removed.
+
 **Structure:**
 ```json
 {
   "@type": "WebSite",
   "name": "Site Name",
-  "url": "https://example.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://example.com/search?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "alternateName": "Short Name",
+  "url": "https://example.com"
 }
 ```
 
@@ -206,6 +201,7 @@ This signals to AI assistants which passages are the best candidates for citatio
 | CourseInfo | Replaced by Course updates 2024 | Use updated Course schema properties |
 | VideoObject `contentUrl` | Changed behavior 2024 | Must point to actual video file, not page URL |
 | Review snippet | Stricter enforcement 2024 | Self-serving reviews on product pages may not display |
+| WebSite `SearchAction` | Sitelinks search box retired 21 Nov 2024 | No errors, no need to remove; earns no points and does not count as deprecated in scoring |
 
 Flag any deprecated schemas found and recommend replacements.
 
@@ -246,7 +242,7 @@ The `sameAs` property is the single most important structured data property for 
 Based on the detected business type, generate ready-to-paste JSON-LD blocks. Always generate:
 
 1. **Organization or Person** (depending on entity type) — always
-2. **WebSite with SearchAction** — always for the homepage
+2. **WebSite** with `name`, `alternateName` and `url` — always for the homepage (no SearchAction)
 3. **Business-type-specific** — Article for publishers, Product for e-commerce, LocalBusiness for local, SoftwareApplication for SaaS
 4. **BreadcrumbList** — for any page deeper than homepage
 
@@ -320,7 +316,7 @@ Based on the detected business type, generate ready-to-paste JSON-LD blocks. Alw
 | sameAs links (5+ platforms) | 15 | 3 per valid sameAs link, max 15 |
 | Article schema with author details | 10 | 10 if full author schema, 5 if name only, 0 if none |
 | Business-type-specific schema present | 10 | 10 if complete, 5 if partial, 0 if missing |
-| WebSite + SearchAction | 5 | 5 if present, 0 if not |
+| WebSite on homepage (site name) | 5 | 5 if present with name and url, 0 if not |
 | BreadcrumbList on inner pages | 5 | 5 if present, 0 if not |
 | JSON-LD format (not Microdata/RDFa) | 5 | 5 if JSON-LD, 3 if mixed, 0 if only Microdata/RDFa |
 | Server-rendered (not JS-injected) | 10 | 10 if in HTML source, 5 if JS but in head, 0 if dynamic JS |

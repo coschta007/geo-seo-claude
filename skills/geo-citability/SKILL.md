@@ -14,7 +14,11 @@ allowed-tools:
 
 ## Core Insight
 
-AI language models cite passages that meet specific structural criteria. Research from Princeton, Georgia Tech, and IIT Delhi (2024) found that GEO-optimized content achieves 30-115% higher visibility in AI-generated responses. The key finding: AI systems preferentially extract and cite passages that are **134-167 words long**, **self-contained** (understandable without surrounding context), **fact-rich** (containing specific statistics, dates, or named entities), and **directly answer a question** in the first 1-2 sentences.
+AI language models cite passages that meet specific structural criteria. Research from Princeton, Georgia Tech, and IIT Delhi (2024) found that GEO-optimized content achieves 30-115% higher visibility in AI-generated responses. The passages AI systems extract most readily are **self-contained** (understandable without surrounding context), **fact-rich** (containing specific statistics, dates, or named entities), and **directly answer a question** in the first 1-2 sentences.
+
+Passage length is a weak signal. A third-party analysis of AI Overview passages (Bortolato 2025) found most cited passages ran 134-167 words, and the rubric gives that range some credit, but no search engine documents a length requirement: Google states there is no ideal content length for its AI features. Never recommend padding or splitting content just to hit a word count.
+
+**Language:** Apply every pattern in this skill in the page's own language. For German, look for "X ist ...", "X bezeichnet ...", "laut ...", "Studien zeigen ...", "zum Beispiel", amounts in € and percentages written as "25 %". `scripts/citability_scorer.py` detects English and German automatically; other languages are scored with English patterns, so treat their numeric scores as rough.
 
 This is fundamentally different from traditional SEO copywriting, which optimizes for keyword density and user engagement metrics. GEO citability optimizes for **extractability** -- the ease with which an AI system can pull a passage from your content and present it as a direct answer.
 
@@ -301,7 +305,7 @@ Generate a file called `GEO-CITABILITY-SCORE.md`:
 
 ### Optimal Passage Characteristics (from GEO Research)
 
-- **Optimal length for AI citation:** 134-167 words (Bortolato 2025 analysis of AI Overview passages)
+- **Common length of AI-cited passages:** 134-167 words (Bortolato 2025 analysis of AI Overview passages; a third-party heuristic, not a documented requirement, and Google states there is no ideal content length)
 - **Definition patterns increase citation rate by:** 2.1x (Georgia Tech 2024)
 - **Adding statistics to passages increases citation by:** 40% (Princeton GEO study 2024)
 - **Adding quotations from authorities increases citation by:** 115% in certain categories (IIT Delhi 2024)

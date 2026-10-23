@@ -161,16 +161,14 @@ Every issue found during the audit is classified by severity:
 - Brand not recognized as an entity by any AI system
 
 ### High (Fix Within 1 Week)
-- Key AI crawlers (GPTBot, ClaudeBot, PerplexityBot) blocked
-- No llms.txt file present
+- Key AI search crawlers (OAI-SearchBot, Claude-SearchBot, PerplexityBot) blocked
 - Zero question-answering content blocks on key pages
 - Missing Organization or LocalBusiness schema
 - No author attribution on content pages
 - All content behind login/paywall with no preview
 
 ### Medium (Fix Within 1 Month)
-- Partial AI crawler blocking (some allowed, some blocked)
-- llms.txt exists but is incomplete or malformed
+- Partial AI search crawler blocking (some allowed, some blocked). A deliberate training opt-out (GPTBot, ClaudeBot, Google-Extended blocked while the search crawlers are allowed) is not an issue
 - Content blocks average under 50 citability score
 - Missing FAQ schema on pages with FAQ content
 - Thin author bios without credentials
@@ -183,6 +181,7 @@ Every issue found during the audit is classified by severity:
 - Missing Open Graph tags
 - Suboptimal heading hierarchy on some pages
 - LinkedIn company page exists but is incomplete
+- No llms.txt, or an incomplete/malformed one (optional; Google Search does not use it)
 
 ---
 

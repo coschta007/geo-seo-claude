@@ -86,7 +86,7 @@ Evaluate detected schemas against Google's supported rich result types:
 | Person | Person | name, url, sameAs, jobTitle |
 | Product | Product | name, image, offers (with price, priceCurrency, availability) |
 | Review | Review | itemReviewed, reviewRating, author |
-| Sitelinks Search Box | WebSite + SearchAction | potentialAction with target URL template |
+| Site name | WebSite (homepage) | name, url; alternateName optional |
 | Video | VideoObject | name, description, thumbnailUrl, uploadDate |
 | Event | Event | name, startDate, location, eventAttendanceMode |
 | Recipe | Recipe | name, image, author, datePublished, prepTime, cookTime, recipeIngredient |
@@ -180,13 +180,13 @@ The `speakable` property indicates content sections suitable for text-to-speech 
 
 **Assessment:** Is the page explicitly marked up for AI assistant consumption?
 
-#### 4f. WebSite + SearchAction
+#### 4f. WebSite (Site Name)
 
-Enables sitelinks search box in search results. Check for:
-- `WebSite` schema with `url` and `name`
-- `potentialAction` with `SearchAction` type
-- `target` URL template with `{search_term_string}` placeholder
-- `query-input` property properly configured
+Google uses WebSite markup on the homepage to choose the site name shown in search results. Check for:
+- `WebSite` schema on the homepage with `name` and `url`
+- `alternateName` if the site is commonly known by a shorter name or acronym
+
+A `potentialAction` with `SearchAction` no longer does anything visible: Google retired the sitelinks search box on 21 November 2024. Existing SearchAction markup causes no errors and does not need to be removed, but it earns no points and should not be recommended.
 
 ### Step 5: Flag Deprecated and Restricted Schemas
 
@@ -199,6 +199,7 @@ Identify schemas that are outdated or restricted:
 | **SpecialAnnouncement** | **DEPRECATED** | Was created for COVID-19 announcements. No longer actively supported. |
 | **CourseInfo** | **DEPRECATED** | Replaced by updated Course schema structure. |
 | **Howto with video** | **REMOVED** | Video-specific HowTo rich results also removed. |
+| **WebSite SearchAction** | **REMOVED** (Nov 2024) | Google stopped showing the sitelinks search box on 21 November 2024. The markup triggers no errors and Google says it need not be removed, so it does **not** count against "No deprecated schemas". The WebSite type itself stays useful for site names. |
 
 Flag any deprecated schemas found on the page and recommend:
 - Remove if adding page weight with no benefit.
@@ -226,7 +227,7 @@ Based on gaps identified in Steps 2-6, generate ready-to-use JSON-LD code blocks
 2. **Person** (for identified authors)
 3. **Article/BlogPosting** (for content pages)
 4. **BreadcrumbList** (for navigation context)
-5. **WebSite + SearchAction** (for the homepage)
+5. **WebSite** with `name`, `alternateName` and `url` (for the homepage; no SearchAction)
 6. **speakable** (added to Article schema)
 
 Templates must:
@@ -249,7 +250,7 @@ Compute the **Schema Score (0-100)**:
 | sameAs completeness | 15 | 1-2 platforms (5), 3-4 platforms (10), 5+ platforms including Wikipedia (15) |
 | speakable property | 10 | Present and properly targeting content sections (10) |
 | BreadcrumbList | 5 | Present and valid (5) |
-| WebSite + SearchAction | 5 | Present and valid (5) |
+| WebSite (site name) | 5 | WebSite on the homepage with name and url (5) |
 | No deprecated schemas | 5 | No deprecated/removed schemas present (5) |
 | JSON-LD format | 5 | All schemas in JSON-LD, not Microdata/RDFa (5) |
 | Validation (no errors) | 5 | All schemas pass syntax and property validation (5) |
@@ -292,7 +293,7 @@ Compute the **Schema Score (0-100)**:
 | Article + dateModified | [Present/Partial/Missing] | High | [Details] |
 | speakable | [Present/Missing] | Medium | [Details] |
 | BreadcrumbList | [Present/Missing] | Low | [Details] |
-| WebSite + SearchAction | [Present/Missing] | Low | [Details] |
+| WebSite (site name) | [Present/Missing] | Low | [Details] |
 
 ### sameAs Entity Linking
 

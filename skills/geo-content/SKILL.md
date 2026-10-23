@@ -121,7 +121,7 @@ Signals that the content and its publisher are reliable and transparent.
 ## Content Quality Metrics
 
 ### Word Count Benchmarks
-These are **floors, not targets**. More words does not mean better content. The benchmark is the minimum length to adequately cover a topic for AI citability.
+These are **floors, not targets**. More words does not mean better content. The benchmark is the minimum length to adequately cover a topic for AI citability. They are editorial rules of thumb: Google states there is no ideal content length for its AI features, so a page below the floor that fully answers its question is fine.
 
 | Page Type | Minimum Words | Ideal Range | Notes |
 |---|---|---|---|

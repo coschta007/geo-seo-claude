@@ -132,10 +132,10 @@ capture the AI search channel before competitors do.
 | Metric | [COMPANY] | Industry Average | Top Performers |
 |--------|-----------|------------------|----------------|
 | GEO Score | [SCORE]/100 | 45/100 | 75+/100 |
-| AI Crawlers Allowed | [X]/14 | 8/14 | 14/14 |
+| AI Crawlers Allowed | [X]/16 | 9/16 | 16/16 |
 | Brand Mentions (AI platforms) | [STATUS] | Moderate | High |
 | Schema Coverage | [STATUS] | Partial | Complete |
-| llms.txt | [Yes/No] | 12% have it | 78% have it |
+| llms.txt (optional) | [Yes/No] | — | — |
 
 ---
 

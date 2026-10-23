@@ -79,17 +79,21 @@ The citability sub-score is itself a weighted composite of four components (weig
 
 | Dimension | Max points | Key signals |
 |---|---|---|
-| Answer Block Quality | 30 | Definition patterns ("X is a…", "X refers to…"), answer appearing in the first 60 words, question-based heading, short clear sentences (5–25 words), attributed claims ("research shows…") |
-| Self-Containment | 25 | Word count in the 134–167 word optimal range (10 pts), 100–200 word range (7 pts), 80–250 word range (4 pts); pronoun density below 2% (8 pts); 3+ proper nouns (7 pts) |
+| Answer Block Quality | 30 | Definition patterns ("X is a…", "X refers to…"; German "X ist ein…", "X bezeichnet…"), answer appearing in the first 60 words, question-based heading, short clear sentences (5–25 words), attributed claims ("research shows…", "laut…", "Studien zeigen…") |
+| Self-Containment | 25 | Word count in the 134–167 word heuristic range (10 pts), 100–200 word range (7 pts), 80–250 word range (4 pts); pronoun density below 2% (8 pts; German formal "Sie" is not counted, like English "you"); 3+ proper nouns (7 pts) |
 | Structural Readability | 20 | Average sentence length 10–20 words (8 pts); list-like transition words (4 pts); numbered items or step references (4 pts); paragraph breaks (4 pts) |
-| Statistical Density | 15 | Percentages (3 pts each, max 6); dollar amounts (3 pts each, max 5); numbers with unit context (2 pts each, max 4); year references (2 pts); named sources (2 pts) |
+| Statistical Density | 15 | Percentages, including "25 %" (3 pts each, max 6); currency amounts in $, €, £, EUR, USD or CHF (3 pts each, max 5); numbers with unit context (2 pts each, max 4); year references 2010–2039 (2 pts); named sources (2 pts) |
 | Uniqueness Signals | 10 | Original-research language ("our study found…") (5 pts); case study or real-world example references (3 pts); specific tool/product mentions (2 pts) |
 
 The passage score is the sum of all five dimensions (maximum 100). The page-level citability score is the average of the top five scoring blocks, or all blocks when fewer than five exist.
 
+**Language.** The scorer detects whether a page is English or German (from common function words) and applies the matching pattern set to every block; the result's `language` field says which one was used. Pages in other languages are scored with the English patterns, so their scores are less meaningful. Decimal and thousands separators ("3.5", "1.200") and abbreviations ("e.g.", "z. B.") do not end a sentence.
+
+**Passage length.** The 134–167 word range comes from a third-party analysis of AI Overview passages (Bortolato 2025). No search engine documents a length requirement, and Google states there is no ideal content length for its AI features, so length carries at most 10 of the 100 passage points.
+
 **Crawler Access Score** (`agents/geo-ai-visibility.md`) starts at 100 and deducts:
-- 15 points per critical crawler blocked (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, GoogleBot)
-- 5 points per secondary crawler blocked
+- 15 points per critical search crawler blocked (OAI-SearchBot, Claude-SearchBot, PerplexityBot, Googlebot)
+- 5 points per secondary crawler blocked, including user-initiated agents (ChatGPT-User, Claude-User) and training crawlers (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot)
 - 10 points if no sitemap is referenced in robots.txt
 - Floor at 0
 
@@ -100,9 +104,11 @@ The passage score is the sum of all five dimensions (maximum 100). The page-leve
 - 70 — present, valid, covers primary content areas
 - 90–100 — comprehensive, with `/llms-full.txt` also available
 
+llms.txt carries 10% of this category, which is 2.5 points of the composite GEO Score. Google states that Google Search, including AI Overviews and AI Mode, does not use llms.txt, so a missing file should be reported as an optional improvement, not as a visibility defect.
+
 ### What good vs bad looks like
 
-A good AI Citability score (70+) means the page has multiple passages that are self-contained, fact-dense, and directly answer questions; all major AI crawlers are allowed in robots.txt; and an llms.txt file is present and well-structured. A poor score (below 40) typically indicates thin or highly context-dependent prose, blocked AI crawlers, and no llms.txt.
+A good AI Citability score (70+) means the page has multiple passages that are self-contained, fact-dense, and directly answer questions; and the AI search crawlers are allowed in robots.txt. A poor score (below 40) typically indicates thin or highly context-dependent prose and blocked AI search crawlers. Blocking only training crawlers (GPTBot, ClaudeBot) costs a few points but does not remove a site from ChatGPT or Claude search.
 
 ---
 
@@ -216,7 +222,7 @@ The schema agent detects JSON-LD, Microdata, and RDFa structured data in the pag
 | sameAs completeness | 15 | 1–2 platforms (5 pts); 3–4 platforms (10 pts); 5+ platforms including Wikipedia (15 pts) |
 | speakable property | 10 | Present and targeting content sections (10 pts) |
 | BreadcrumbList | 5 | Present and valid (5 pts) |
-| WebSite + SearchAction | 5 | Present and valid (5 pts) |
+| WebSite (site name) | 5 | WebSite on the homepage with name and url (5 pts); SearchAction earns nothing since Google retired the sitelinks search box on 21 November 2024 |
 | No deprecated schemas | 5 | No HowTo (removed Sep 2023) or SpecialAnnouncement schemas present |
 | JSON-LD format | 5 | All schemas in JSON-LD rather than Microdata or RDFa |
 | Validation (no errors) | 5 | All schemas pass syntax and property validation |
@@ -227,6 +233,7 @@ Deprecated and restricted statuses checked (from `agents/geo-schema.md`):
 - HowTo: removed from Google rich results September 2023
 - FAQPage: restricted to government and health authority sites since August 2023
 - SpecialAnnouncement: deprecated
+- WebSite SearchAction: sitelinks search box retired 21 November 2024 (not penalised, because Google says the markup can stay)
 
 ### What good vs bad looks like
 
@@ -268,4 +275,6 @@ A strong platform score requires passing the crawler-access and entity-recogniti
 
 **Schema validation is structural, not semantic.** The schema agent checks that JSON-LD is syntactically valid, uses recognised Schema.org types and properties, and includes required fields. It does not verify that the values are accurate or that the described entity matches the actual organisation or person. A schema block that passes validation may still contain incorrect information.
 
-**llms.txt is an emerging standard.** The llms.txt specification referenced by `scripts/llmstxt_generator.py` and `agents/geo-ai-visibility.md` is not yet universally adopted by AI crawlers. Its presence or absence does not guarantee any specific crawler behaviour at this time.
+**llms.txt is an emerging standard.** The llms.txt specification referenced by `scripts/llmstxt_generator.py` and `agents/geo-ai-visibility.md` is not yet universally adopted by AI crawlers. Google states that Google Search, including its generative AI features, does not use it. Its presence or absence does not guarantee any specific crawler behaviour at this time.
+
+**The score measures this checklist, not citations.** A GEO Score shows how well a site meets the rubric above. Whether it is actually cited more often has to be checked separately: run the relevant questions in ChatGPT, Perplexity and Google AI Overviews, look at referrals from AI platforms in analytics, and check server logs for visits from AI search crawlers.
